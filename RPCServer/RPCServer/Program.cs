@@ -19,29 +19,43 @@ namespace RPCServer
 			//Create Server
 			TcpServerChannel channel = new TcpServerChannel(port);
 			ChannelServices.RegisterChannel(channel, false);
+
+            List<NPC> npcList = new List<NPC>();
 			
 			//Register Player
 			RemotingConfiguration.RegisterWellKnownServiceType(typeof(ClientData), "ClientData", WellKnownObjectMode.SingleCall);
-			
 
-			ChannelDataStore client1;
+            // GameLoop
+            ActualData gameData = ClientData.data;
+            
+            bool gameRunning = true;
+            while(gameRunning)
+            {
+                while (gameData.gameStart)
+                {
+                    if (gameData.instances < 3)
+                    {
+                        for (int i = 0; i < (3 - gameData.instances); ++i)
+                        {
+                            npcList.Add(new NPC(gameData.instances + 1 + i));
+                        }
+
+                    }
+
+                    if (gameData.takenShot[0] && gameData.takenShot[1] && gameData.takenShot[2])
+                        gameData.roundComplete = true;
+                }
+            }
+            // Press Escape to end Game Loop
+            if (Console.ReadKey().Key == ConsoleKey.Escape)
+                gameRunning = false;
+
 			Console.WriteLine("Listening for requests");
 			Console.WriteLine("Press 'enter' to exit...");
-			if (Console.ReadKey().Key == ConsoleKey.F)
-			{
-				client1 = (ChannelDataStore)channel.ChannelData;
-				var uriArray = client1.ChannelUris;
-				foreach (string uri in uriArray)
-				{
-					var urlArray = channel.GetUrlsForUri(uri);
-					foreach (string url in urlArray)
-					{
-						ClientData proxyClient = new ClientData();
-						proxyClient = (ClientData)RemotingServices.Connect(proxyClient.GetType(), url);
-					}
-				}
-			}			
-			Console.ReadLine();
+
+            ClientData.data.text = "Blah";
+
+            Console.ReadLine();
 		}
 	}
 }
