@@ -42,8 +42,12 @@ namespace RPCServer
 
                     }
 
-                    if (gameData.takenShot[0] && gameData.takenShot[1] && gameData.takenShot[2])
-                        gameData.roundComplete = true;
+					if (gameData.takenShot[0] && gameData.takenShot[1] && gameData.takenShot[2])
+					{
+						gameData.roundComplete = true;
+						gameData.gameStart = false;
+						Console.WriteLine("The Game has finished");
+					}
                 }
             }
             // Press Escape to end Game Loop

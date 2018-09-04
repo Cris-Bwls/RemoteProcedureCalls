@@ -97,7 +97,7 @@ namespace RPCClient
                             if (clientData.GetIsAlive(3))
                                 Console.WriteLine("Player 3!");
 
-                            Console.WriteLine("\n Press enter to continue");
+                            Console.WriteLine("\n Press enter to continue")
                             Console.ReadLine();
                         }
                     }

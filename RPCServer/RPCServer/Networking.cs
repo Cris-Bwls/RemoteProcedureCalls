@@ -112,12 +112,4 @@ namespace Networking
             data.isAlive[target - 1] = false;
         }
     }
-
-    class ServerData : MarshalByRefObject
-	{
-		public void Connect()
-		{
-			Console.WriteLine("Connected");
-		}
-	}
 }
